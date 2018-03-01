@@ -31,7 +31,12 @@ public class Project3
         else if (command.equalsIgnoreCase("D"))
             return false;
         else if (command.equalsIgnoreCase("I"))
+        {
+            System.out.print("City codes and distance:  ");
+            String[] insertInput = scan.nextLine().trim().split("\\s+");
+            dgraph.insertRoad(insertInput[0], insertInput[1], insertInput[2]);
             return false;
+        }
         else if (command.equalsIgnoreCase("R"))
             return false;
         else if (command.equalsIgnoreCase("H"))

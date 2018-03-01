@@ -6,6 +6,7 @@ public class Digraph
 {
     // Necessary fields for graph
     private HashMap<String, Integer> cityIndex;
+    private HashMap<String, String> cityName;
     private int[][] graph; // size 21 (0-20, 0 blank), graph[source][target]
     private String[] cityData; // size 21 (0-20, 0 blank)
 
@@ -13,6 +14,7 @@ public class Digraph
     {
         graph = new int[21][21];
         cityIndex = new HashMap<String, Integer>();
+        cityName = new HashMap<String, String>();
         cityData = new String[21];
 
         // initialize graph with no directed roads
@@ -24,6 +26,24 @@ public class Digraph
 
         loadCityDataFrom(cityFile);
         loadRoadDataFrom(roadFile);
+    }
+
+    public void insertRoad(String from, String to, String dist)
+    {
+        int fromIndex = cityIndex.get(from);
+        int toIndex = cityIndex.get(to);
+        int distance = Integer.parseInt(dist);
+
+        if (graph[fromIndex][toIndex] > 0)
+            System.out.println("The road from " + cityName[from] + " to " +
+                                cityName[to] + " already exists");
+        else
+        {
+            graph[fromIndex][toIndex] = distance;
+            System.out.println("You have inserted a road from " + cityName[from]
+                                + " to " cityName[to] + " with a distance of "
+                                + dist);
+        }
     }
 
     // BEGIN PRIVATE METHODS
@@ -40,6 +60,7 @@ public class Digraph
             {
                 line = reader.nextLine().trim().split("\\s+");
                 cityIndex.put(line[1], Integer.parseInt(line[0]));
+                cityName.put(line[1], String.join(" ", line[2].split("_")));
                 cityData[Integer.parseInt(line[0])] = String.join(" ", line);
             }
 
