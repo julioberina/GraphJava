@@ -2,20 +2,45 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Digraph
 {
     // Necessary fields for graph
     private HashMap<String, Integer> cityIndex;
     private HashMap<String, String> cityName;
+    private HashMap<Integer, String> cityInitial;
     private int[][] graph; // size 21 (0-20, 0 blank), graph[source][target]
     private String[] cityData; // size 21 (0-20, 0 blank)
+
+    // Nodes for Dijkstra's Algorithm
+    private class DNode
+    {
+        private String cityCode;
+        private Double distance;
+
+        public DNode(String code, Double dist)
+        {
+            cityCode = code;
+            distance = dist;
+        }
+
+        // Getters
+        public String getCityCode() { return cityCode; }
+        public Double getDistance() { return distance; }
+
+        // Setters
+        public void setDistance(Double dist) { distance = dist; }
+    }
 
     public Digraph(String cityFile, String roadFile)
     {
         graph = new int[21][21];
         cityIndex = new HashMap<String, Integer>();
         cityName = new HashMap<String, String>();
+        cityInitial = new HashMap<Integer, String>();
         cityData = new String[21];
 
         // initialize graph with no directed roads
@@ -113,6 +138,65 @@ public class Digraph
 
         Double[] dist = new Double[21];
         Double[] prev = new Double[21];
+        List<DNode> Q = new ArrayList<DNode>(); // vertex queue
+        List<Integer> visited = new ArrayList<Integer>();
+        boolean reachedDestination = false;
+        String route = to;
+
+        Q.add(new DNode(from, 0.0));
+
+        for (int v = 1; v <= 20; ++v)
+        {
+            if (v != cityIndex.get(from))
+            {
+                dist[v] = Double.POSITIVE_INFINITY;
+                prev[v] = null;
+            }
+        }
+
+        while (Q.size() > 0)
+        {
+            DNode u = null; // temporary node for checking queue items
+            double alt = 0.0; // getting value of two vertices
+            u = Q.remove(0);
+
+            if (visited.contains(cityIndex.get(u.getCityCode())))
+                continue;
+            else if (reachedDestination)
+                break;
+
+            for (DNode v : neighbors(cityIndex.get(u.getCityCode())))
+            {
+                int ui = cityIndex.get(u.getCityCode());
+                int vi = cityIndex.get(v.getCityCode());
+
+                alt = ((double)dist[ui] + (double)graph[ui][vi]);
+                if (alt < (double)dist[vi])
+                {
+                    dist[vi] = alt;
+                    prev[vi] = (double)ui;
+                }
+
+                if (v.getCityCode().equals(to))
+                    reachedDestination = true;
+                else
+                    Q.add(v);
+            }
+
+            visited.add(cityIndex.get(u.getCityCode()));
+        }
+
+        Double current = (double)cityIndex.get(to);
+        while (prev[(int)(double)current] != null)
+        {
+            current = prev[(int)(double)current];
+            if (current != null)
+                route = (cityInitial.get(current) + ", " + route);
+        }
+
+        System.out.println("The minimum distance between " + cityName.get(from) +
+            " to " + cityName.get(to) + " is " + dist[cityIndex.get(to)] +
+            " through the route: " + route);
     }
 
     // BEGIN PRIVATE METHODS
@@ -129,6 +213,7 @@ public class Digraph
             {
                 line = reader.nextLine().trim().split("\\s+");
                 cityIndex.put(line[1], Integer.parseInt(line[0]));
+                cityInitial.put(Integer.parseInt(line[0]), line[1]);
                 cityName.put(line[1], String.join(" ", line[2].split("_")));
                 cityData[Integer.parseInt(line[0])] = String.join(" ", line);
             }
@@ -165,5 +250,19 @@ public class Digraph
         {
             e.printStackTrace();
         }
+    }
+
+    private List<DNode> neighbors(int vertex)
+    {
+        List<DNode> result = new ArrayList<DNode>();
+
+        for (int i = 1; i <= 20; ++i)
+        {
+            if (graph[vertex][i] > 0)
+                result.add(new DNode(cityInitial.get(vertex), (double)graph[vertex][i]));
+        }
+
+        result.sort(Comparator.comparing(n -> n.getDistance()));
+        return result;
     }
 }
