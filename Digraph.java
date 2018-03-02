@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.Scanner;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Digraph
 {
@@ -51,13 +52,13 @@ public class Digraph
         int distance = Integer.parseInt(dist);
 
         if (graph[fromIndex][toIndex] > 0)
-            System.out.println("The road from " + cityName[from] + " to " +
-                                cityName[to] + " already exists");
+            System.out.println("The road from " + cityName.get(from) + " to " +
+                                cityName.get(to) + " already exists");
         else
         {
             graph[fromIndex][toIndex] = distance;
-            System.out.println("You have inserted a road from " + cityName[from]
-                                + " to " cityName[to] + " with a distance of "
+            System.out.println("You have inserted a road from " + cityName.get(from)
+                                + " to " + cityName.get(to) + " with a distance of "
                                 + dist);
         }
     }
@@ -79,13 +80,13 @@ public class Digraph
         int toIndex = cityIndex.get(to);
 
         if (graph[fromIndex][toIndex] == 0)
-            System.out.println("The road from " + cityName[from] + " to " +
-                                cityName[to] + " does not exist");
+            System.out.println("The road from " + cityName.get(from) + " to " +
+                                cityName.get(to) + " does not exist");
         else
         {
             graph[fromIndex][toIndex] = 0;
-            System.out.println("You have removed the road from " + cityName[from]
-                                + " to " cityName[to]);
+            System.out.println("You have removed the road from " + cityName.get(from)
+                                + " to " + cityName.get(to));
         }
     }
 

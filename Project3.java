@@ -2,11 +2,12 @@ import java.util.Scanner;
 
 public class Project3
 {
-    private Scanner scan;
+    private static Scanner scan;
+    private static Digraph dgraph;
 
     public static void main(String[] args)
     {
-        Digraph dgraph = new Digraph("city.dat", "road.dat");
+        dgraph = new Digraph("city.dat", "road.dat");
         boolean done = false;
         scan = new Scanner(System.in);
 
@@ -38,7 +39,7 @@ public class Project3
         if (command.equalsIgnoreCase("Q"))
         {
             System.out.print("City code:  ");
-            cityCode = scan.nextLine();
+            cityCode = scan.nextLine().toUpperCase();
             dgraph.query(cityCode);
             return false;
         }
@@ -48,14 +49,14 @@ public class Project3
         {
             System.out.print("City codes and distance:  ");
             String[] insertInput = scan.nextLine().trim().split("\\s+");
-            dgraph.insertRoad(insertInput[0], insertInput[1], insertInput[2]);
+            dgraph.insertRoad(insertInput[0].toUpperCase(), insertInput[1].toUpperCase(), insertInput[2]);
             return false;
         }
         else if (command.equalsIgnoreCase("R"))
         {
             System.out.print("City codes:  ");
             String[] removeInput = scan.nextLine().trim().split("\\s+");
-            dgraph.removeRoad(removeInput[0], removeInput[1]);
+            dgraph.removeRoad(removeInput[0].toUpperCase(), removeInput[1].toUpperCase());
             return false;
         }
         else if (command.equalsIgnoreCase("H"))
