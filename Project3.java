@@ -17,6 +17,15 @@ public class Project3
         }
     }
 
+    private static void displayListOfCommands()
+    {
+        System.out.println("D Find the minimum distance between two cities");
+        System.out.println("I Insert a road by entering two city codes and distance");
+        System.out.println("R Remove an existing road by entering two city codes");
+        System.out.println("H Display this message");
+        System.out.println("E Exit");
+    }
+
     private static boolean menuCommandLoop()
     {
         String command = "";
