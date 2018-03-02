@@ -98,6 +98,23 @@ public class Digraph
             System.out.println("City code does not exist");
     }
 
+    public void shortestPath(String from, String to)
+    {
+        if (cityIndex.get(from) == null)
+        {
+            System.out.println("From city doesn't exist");
+            return;
+        }
+        else if (cityIndex.get(to) == null)
+        {
+            System.out.println("To city doesn't exist");
+            return;
+        }
+
+        Double[] dist = new Double[21];
+        Double[] prev = new Double[21];
+    }
+
     // BEGIN PRIVATE METHODS
 
     private void loadCityDataFrom(String file)
