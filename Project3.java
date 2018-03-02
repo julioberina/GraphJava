@@ -47,7 +47,7 @@ public class Project3
         {
             System.out.print("City codes:  ");
             String[] dijkstraInput = scan.nextLine().trim().split("\\s+");
-            dgraph.shortestPath(dijkstraInput[0], dijkstraInput[1]);
+            dgraph.shortestPath(dijkstraInput[0].toUpperCase(), dijkstraInput[1].toUpperCase());
             return false;
         }
         else if (command.equalsIgnoreCase("I"))

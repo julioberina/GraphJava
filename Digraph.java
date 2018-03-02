@@ -136,8 +136,8 @@ public class Digraph
             return;
         }
 
-        Double[] dist = new Double[21];
-        Double[] prev = new Double[21];
+        double[] dist = new double[21];
+        int[] prev = new int[21];
         List<DNode> Q = new ArrayList<DNode>(); // vertex queue
         List<Integer> visited = new ArrayList<Integer>();
         boolean reachedDestination = false;
@@ -150,14 +150,14 @@ public class Digraph
             if (v != cityIndex.get(from))
             {
                 dist[v] = Double.POSITIVE_INFINITY;
-                prev[v] = null;
+                prev[v] = 0;
             }
         }
 
         while (Q.size() > 0)
         {
-            DNode u = null; // temporary node for checking queue items
-            double alt = 0.0; // getting value of two vertices
+            DNode u = null; // temporary source node for checking queue items
+            double alt = 0.0; // getting distance between two vertices
             u = Q.remove(0);
 
             if (visited.contains(cityIndex.get(u.getCityCode())))
@@ -170,11 +170,11 @@ public class Digraph
                 int ui = cityIndex.get(u.getCityCode());
                 int vi = cityIndex.get(v.getCityCode());
 
-                alt = ((double)dist[ui] + (double)graph[ui][vi]);
-                if (alt < (double)dist[vi])
+                alt = (dist[ui] + graph[ui][vi]);
+                if (alt < dist[vi])
                 {
                     dist[vi] = alt;
-                    prev[vi] = (double)ui;
+                    prev[vi] = ui;
                 }
 
                 if (v.getCityCode().equals(to))
@@ -186,16 +186,16 @@ public class Digraph
             visited.add(cityIndex.get(u.getCityCode()));
         }
 
-        Double current = (double)cityIndex.get(to);
-        while (prev[(int)(double)current] != null)
+        int current = cityIndex.get(to);
+        while (prev[current] > 0)
         {
-            current = prev[(int)(double)current];
-            if (current != null)
+            current = prev[current];
+            if (current > 0)
                 route = (cityInitial.get(current) + ", " + route);
         }
 
         System.out.println("The minimum distance between " + cityName.get(from) +
-            " to " + cityName.get(to) + " is " + dist[cityIndex.get(to)] +
+            " and " + cityName.get(to) + " is " + (int)dist[cityIndex.get(to)] +
             " through the route: " + route);
     }
 
@@ -259,7 +259,7 @@ public class Digraph
         for (int i = 1; i <= 20; ++i)
         {
             if (graph[vertex][i] > 0)
-                result.add(new DNode(cityInitial.get(vertex), (double)graph[vertex][i]));
+                result.add(new DNode(cityInitial.get(i), (double)graph[vertex][i]));
         }
 
         result.sort(Comparator.comparing(n -> n.getDistance()));
