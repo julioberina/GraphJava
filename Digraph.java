@@ -62,6 +62,33 @@ public class Digraph
         }
     }
 
+    public void removeRoad(String from, String to)
+    {
+        if (cityIndex.get(from) == null)
+        {
+            System.out.println("From city doesn't exist");
+            return;
+        }
+        else if (cityIndex.get(to) == null)
+        {
+            System.out.println("To city doesn't exist");
+            return;
+        }
+
+        int fromIndex = cityIndex.get(from);
+        int toIndex = cityIndex.get(to);
+
+        if (graph[fromIndex][toIndex] == 0)
+            System.out.println("The road from " + cityName[from] + " to " +
+                                cityName[to] + " does not exist");
+        else
+        {
+            graph[fromIndex][toIndex] = 0;
+            System.out.println("You have removed the road from " + cityName[from]
+                                + " to " cityName[to]);
+        }
+    }
+
     public void query(String code)
     {
         if (cityIndex.get(code) != null)

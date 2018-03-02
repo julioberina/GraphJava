@@ -43,7 +43,12 @@ public class Project3
             return false;
         }
         else if (command.equalsIgnoreCase("R"))
+        {
+            System.out.print("City codes:  ");
+            String[] removeInput = scan.nextLine().trim().split("\\s+");
+            dgraph.removeRoad(removeInput[0], removeInput[1]);
             return false;
+        }
         else if (command.equalsIgnoreCase("H"))
             return false;
         else if (command.equalsIgnoreCase("E"))
