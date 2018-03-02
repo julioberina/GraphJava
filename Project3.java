@@ -59,7 +59,10 @@ public class Project3
             return false;
         }
         else if (command.equalsIgnoreCase("H"))
+        {
+            displayListOfCommands();
             return false;
+        }
         else if (command.equalsIgnoreCase("E"))
             return true;
         else
