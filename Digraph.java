@@ -30,6 +30,22 @@ public class Digraph
 
     public void insertRoad(String from, String to, String dist)
     {
+        if (cityIndex.get(from) == null)
+        {
+            System.out.println("From city doesn't exist");
+            return;
+        }
+        else if (cityIndex.get(to) == null)
+        {
+            System.out.println("To city doesn't exist");
+            return;
+        }
+        else if (Integer.parseInt(dist) < 1)
+        {
+            System.out.println("Invalid distance value");
+            return;
+        }
+
         int fromIndex = cityIndex.get(from);
         int toIndex = cityIndex.get(to);
         int distance = Integer.parseInt(dist);
@@ -48,7 +64,10 @@ public class Digraph
 
     public void query(String code)
     {
-        System.out.println(cityData[cityIndex.get(code)]);
+        if (cityIndex.get(code) != null)
+            System.out.println(cityData[cityIndex.get(code)]);
+        else
+            System.out.println("City code does not exist");
     }
 
     // BEGIN PRIVATE METHODS
