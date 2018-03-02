@@ -27,7 +27,12 @@ public class Project3
         command = scan.nextLine();
 
         if (command.equalsIgnoreCase("Q"))
+        {
+            System.out.print("City code:  ");
+            cityCode = scan.nextLine();
+            dgraph.query(cityCode);
             return false;
+        }
         else if (command.equalsIgnoreCase("D"))
             return false;
         else if (command.equalsIgnoreCase("I"))

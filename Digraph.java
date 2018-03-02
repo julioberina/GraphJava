@@ -46,6 +46,11 @@ public class Digraph
         }
     }
 
+    public void query(String code)
+    {
+        System.out.println(cityData[cityIndex.get(code)]);
+    }
+
     // BEGIN PRIVATE METHODS
 
     private void loadCityDataFrom(String file)
