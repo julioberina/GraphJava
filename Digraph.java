@@ -194,9 +194,14 @@ public class Digraph
                 route = (cityInitial.get(current) + ", " + route);
         }
 
-        System.out.println("The minimum distance between " + cityName.get(from) +
-            " and " + cityName.get(to) + " is " + (int)dist[cityIndex.get(to)] +
-            " through the route: " + route);
+        if (dist[cityIndex.get(to)] == Double.POSITIVE_INFINITY)
+            System.out.println(cityName.get(to) + " cannot be reached!");
+        else
+        {
+            System.out.println("The minimum distance between " + cityName.get(from) +
+                " and " + cityName.get(to) + " is " + (int)dist[cityIndex.get(to)] +
+                " through the route: " + route);
+        }
     }
 
     // BEGIN PRIVATE METHODS
